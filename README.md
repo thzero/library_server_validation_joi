@@ -7,5 +7,3 @@
 ### Installation
 
 [![NPM](https://nodei.co/npm/@thzero/library_server_validation_joi.png?compact=true)](https://npmjs.org/package/@thzero/library_server_validation_joi)
-
-
