@@ -1,9 +1,9 @@
 {
   "name": "@thzero/library_server_validation_joi",
-  "version": "0.7.11",
+  "version": "0.7.12",
   "version_major": 0,
   "version_minor": 7,
-  "version_patch": 11,
+  "version_patch": 12,
   "version_date": "07/24/2020",
   "author": "thZero",
   "license": "MIT",
@@ -25,7 +25,7 @@
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "@hapi/joi-date": "^2.0.1",
-    "@thzero/library": "npm:@thzero/library_server@^0.7.11"
+    "@thzero/library": "npm:@thzero/library_server@^0.7.12"
   },
   "peerDependencies": {
     "@babel/core": "^7.10.5",
