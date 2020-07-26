@@ -1,10 +1,10 @@
 {
   "name": "@thzero/library_server_validation_joi",
-  "version": "0.7.12",
+  "version": "0.7.14",
   "version_major": 0,
   "version_minor": 7,
-  "version_patch": 12,
-  "version_date": "07/24/2020",
+  "version_patch": 14,
+  "version_date": "07/26/2020",
   "author": "thZero",
   "license": "MIT",
   "repository": {
@@ -34,7 +34,7 @@
     "babel-loader": "^8.1.0",
     "eslint": "^7.5.0",
     "eslint-plugin-node": "^11.1.0",
-    "webpack": "^4.43.0",
+    "webpack": "^4.44.0",
     "webpack-cli": "^3.3.12"
   },
   "devDependencies": {
