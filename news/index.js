@@ -1,6 +1,6 @@
 import Joi from '@hapi/joi';
 
-import LibraryConstants from '@thzero/library/constants';
+import LibraryConstants from '@thzero/library_server/constants';
 
 import JoiBaseValidationService from '../index';
 
