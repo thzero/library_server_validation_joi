@@ -5,16 +5,16 @@ Joi.extend(JoiDate);
 import BaseValidationService from '@thzero/library_server/service/validation';
 
 class JoiBaseValidationService extends BaseValidationService {
-	check(schema, value, context, prefix) {
+	check(correlationId, schema, value, context, prefix) {
 		const { error, valueO } = schema.validate(value, context);
-		return this._validateError(error, prefix);
+		return this._validateError(correlationId, error, prefix);
 	}
 
-	_validateError(error, prefix) {
+	_validateError(correlationId, error, prefix) {
 		if (!error)
-			return this._success();
+			return this._success(correlationId);
 
-		const response = this._error2(null, error);
+		const response = this._error('JoiBaseValidationService', '_validateError', null, null, null, correlationId);
 
 		if (error) {
 			for (const temp of error.details) {
