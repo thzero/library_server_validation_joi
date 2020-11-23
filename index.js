@@ -14,12 +14,12 @@ class JoiBaseValidationService extends BaseValidationService {
 		if (!error)
 			return this._success(correlationId);
 
-		const response = this._error('JoiBaseValidationService', '_validateError', null, null, null, correlationId);
+		const response = this._error('JoiBaseValidationService', '_validateError', null, null, null, null, correlationId);
 
 		if (error) {
 			for (const temp of error.details) {
 				response.add(temp.message, temp.context.key, temp.context.key, temp.type, null, prefix);
-				this._logger.warn2(temp);
+				this._logger.warn2(null, temp);
 			}
 		}
 
