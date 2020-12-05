@@ -110,6 +110,10 @@ class JoiBaseValidationService extends BaseValidationService {
 		picture: this._userpicture
 	});
 
+	settingsRefreshSchema = Joi.object({
+		userId: this._externalId.required()
+	});
+
 	settingRequestSchema() {
 		return this._settingRequestSchema;
 	}
