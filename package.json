@@ -1,9 +1,9 @@
 {
   "name": "@thzero/library_server_validation_joi",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "version_major": 0,
   "version_minor": 13,
-  "version_patch": 1,
+  "version_patch": 2,
   "version_date": "01/19/2021",
   "author": "thZero",
   "license": "MIT",
@@ -25,7 +25,7 @@
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "@hapi/joi-date": "^2.0.1",
-    "@thzero/library_server": "^0.13.3"
+    "@thzero/library_server": "^0.13.5"
   },
   "devDependencies": {
     "@thzero/library_cli": "^0.13.1"
