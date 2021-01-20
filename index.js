@@ -2,7 +2,7 @@ import Joi from '@hapi/joi';
 import JoiDate from '@hapi/joi-date';
 Joi.extend(JoiDate);
 
-import BaseValidationService from '@thzero/library_common/service/validation';
+import BaseValidationService from '@thzero/library_common_service/service/validation';
 
 class JoiBaseValidationService extends BaseValidationService {
 	check(correlationId, schema, value, context, prefix) {
