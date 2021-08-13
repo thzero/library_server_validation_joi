@@ -124,6 +124,7 @@ class JoiBaseValidationService extends BaseValidationService {
 
 	userUpdateSchema = Joi.object({
 		id: this._externalId.required(),
+		email: this._email.allow(null),
 		roles: Joi.array().items(this._roles).allow(null),
 		updatedTimestamp: this._timestamp.required()
 	});
