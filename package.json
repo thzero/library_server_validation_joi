@@ -27,7 +27,7 @@
     "@hapi/joi-date": "^2.0.1"
   },
   "devDependencies": {
-    "@thzero/library_cli": "^0.13.9"
+    "@thzero/library_cli": "^0.13.19"
   },
   "peerDependencies": {
     "@thzero/library_common": "^0.14",
