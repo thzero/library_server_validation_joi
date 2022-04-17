@@ -1,5 +1,5 @@
-import Joi from '@hapi/joi';
-import JoiDate from '@hapi/joi-date';
+import Joi from 'joi';
+import JoiDate from '@joi/date';
 Joi.extend(JoiDate);
 
 import JoiBaseValidationService from './index';
