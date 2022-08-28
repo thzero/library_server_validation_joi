@@ -2,7 +2,7 @@ import Joi from 'joi';
 import JoiDate from '@joi/date';
 Joi.extend(JoiDate);
 
-import JoiBaseValidationService from './index';
+import JoiBaseValidationService from './index.js';
 
 class GamerJoiValidationService extends JoiBaseValidationService {
 	_gamerId = Joi.string()

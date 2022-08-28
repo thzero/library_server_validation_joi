@@ -2,7 +2,7 @@ import Joi from 'joi';
 import JoiDate from '@joi/date';
 Joi.extend(JoiDate);
 
-import BaseValidationService from '@thzero/library_common_service/service/validation';
+import BaseValidationService from '@thzero/library_common_service/service/validation.js';
 
 class JoiBaseValidationService extends BaseValidationService {
 	check(correlationId, schema, value, context, prefix) {

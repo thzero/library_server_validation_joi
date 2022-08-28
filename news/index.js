@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
-import LibraryConstants from '@thzero/library_server/constants';
+import LibraryConstants from '@thzero/library_server/constants.js';
 
-import JoiBaseValidationService from '../index';
+import JoiBaseValidationService from '../index.js';
 
 class BaseNewsJoiBaseValidationService extends JoiBaseValidationService {
 	getNewsSchema() {
