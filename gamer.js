@@ -33,11 +33,13 @@ class GamerJoiValidationService extends JoiBaseValidationService {
 
 	gamerTagSchema = this._gamerTagPartial.required();
 
-	settingRequestSchema() {
-		const validation = super.settingRequestSchema();
-		return validation.concat(Joi.object({
-			settings: this._settingGamerSchema.required()
-		}));
+	settingSchema() {
+		const validation = super.settingSchema();
+		return validation.concat(this._settingGamerSchema);
+	}
+
+	settingSchema() {
+		return this._settingGamerSchema;
 	}
 }
 

@@ -107,7 +107,7 @@ class JoiBaseValidationService extends BaseValidationService {
 		id: this._externalId.required(),
 		name: this._name.allow(null),
 		email: this._email.allow(null),
-		picture: this._userpicture
+		picture: this._userpicture.allow(null),
 	});
 
 	settingsRefreshSchema = Joi.object({
@@ -115,11 +115,18 @@ class JoiBaseValidationService extends BaseValidationService {
 	});
 
 	settingRequestSchema() {
-		return this._settingRequestSchema;
+		return Joi.object({
+			userId: this._id.required(),
+			settings: this.settingSchema().required()
+		});
+	}
+
+	settingSchema() {
+		return Joi.object({});
 	}
 
 	userSchema = Joi.object({
-		id: this._externalId.required()
+		id: this._externalId.required(),
 	});
 
 	userUpdateSchema = Joi.object({
@@ -127,10 +134,6 @@ class JoiBaseValidationService extends BaseValidationService {
 		email: this._email.allow(null),
 		roles: Joi.array().items(this._roles).allow(null),
 		updatedTimestamp: this._timestamp.required()
-	});
-
-	_settingRequestSchema = Joi.object({
-		userId: this._id.required()
 	});
 }
 
