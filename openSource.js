@@ -2,14 +2,7 @@ export default () => {
     return [
 		{
 			category: 'server',
-			name: '@hapi/joi',
-			url: 'https://github.com/hapijs/joi',
-			licenseName: 'MIT',
-			licenseUrl: 'https://github.com/hapijs/joi/blob/master/LICENSE.md'
-		},
-		{
-			category: 'server',
-			name: '@hapi/joi-date',
+			name: '@joi/date',
 			url: 'https://github.com/hapijs/joi-date',
 			licenseName: 'MIT',
 			licenseUrl: 'https://github.com/hapijs/joi-date/blob/master/LICENSE.md'
@@ -41,6 +34,13 @@ export default () => {
 			url: 'https://github.com/thzero/library_server_validation_joi',
 			licenseName: 'MIT',
 			licenseUrl: 'https://github.com/thzero/library_server_validation_joi/blob/master/license.md'
+		},
+		{
+			category: 'server',
+			name: 'joi',
+			url: 'https://github.com/hapijs/joi',
+			licenseName: 'MIT',
+			licenseUrl: 'https://github.com/hapijs/joi/blob/master/LICENSE.md'
 		}
     ];
 }
