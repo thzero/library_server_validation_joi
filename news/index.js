@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import LibraryConstants from '@thzero/library_server/constants.js';
+import LibraryServerConstants from '@thzero/library_server/constants.js';
 
 import JoiBaseValidationService from '../index.js';
 
@@ -14,11 +14,11 @@ class BaseNewsJoiBaseValidationService extends JoiBaseValidationService {
 	}
 
 	getNewStatus() {
-		return LibraryConstants.NewsStatus;
+		return LibraryServerConstants.NewsStatus;
 	}
 
 	getNewsTypes() {
-		return LibraryConstants.NewsTypes;
+		return LibraryServerConstants.NewsTypes;
 	}
 
 	_newsArticle = Joi.string()
