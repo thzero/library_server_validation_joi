@@ -1,11 +1,11 @@
 {
   "name": "@thzero/library_server_validation_joi",
   "type": "module",
-  "version": "0.17.5",
+  "version": "0.17.6",
   "version_major": 0,
   "version_minor": 17,
-  "version_patch": 5,
-  "version_date": "07/15/2023",
+  "version_patch": 6,
+  "version_date": "07/21/2023",
   "author": "thZero",
   "license": "MIT",
   "repository": {
