@@ -32,10 +32,12 @@ class JoiBaseValidationService extends BaseValidationService {
 	_description = Joi.string()
 		.regex(/^[!@#$%^&*()_\-\+=\[\]{}|\\:;"'<>,.?\/a-zA-Z0-9 (\r|\n)*$/)]*$/);
 
-	_extendedName = Joi.string()
+	_extendedNameBase = Joi.string()
 		.trim()
 		//.alphanum()
-		.regex(/^[a-zA-Z0-9]+(['"._\-a-zA-Z0-9 :;,\(\\+)@]*)*$/)
+		.regex(/^[a-zA-Z0-9]+(['"._\-a-zA-Z0-9 :;,\(\\+)@]*)*$/);
+
+	_extendedName = this._extendedNameBase
 		.min(3)
 		.max(50);
 
@@ -88,6 +90,7 @@ class JoiBaseValidationService extends BaseValidationService {
 	_url = Joi.string()
 		.trim()
 		.min(3)
+		.max(255)
 		.uri();
 
 	_username = Joi.string()
