@@ -25,7 +25,8 @@
   },
   "dependencies": {
     "@joi/date": "^2.1.0",
-    "joi": "^17.11.0"
+    "joi": "^17.11.0",
+    "moment": ">=2.29.4"
   },
   "peerDependencies": {
     "@thzero/library_common": "^0.17",
