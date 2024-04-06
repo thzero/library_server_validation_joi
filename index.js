@@ -93,6 +93,12 @@ class JoiBaseValidationService extends BaseValidationService {
 		.max(255)
 		.uri();
 
+	_usageMetricsMeasurementType = Joi.string()
+		.trim()
+		.regex(/^[a-zA-Z0-9]+([._\-a-zA-Z0-9]*)*$/)
+		.min(2)
+		.max(16);
+
 	_username = Joi.string()
 		.trim()
 		.alphanum()
@@ -127,6 +133,12 @@ class JoiBaseValidationService extends BaseValidationService {
 	settingSchema() {
 		return Joi.object({});
 	}
+
+	usageMetricsMeasurementTag = Joi.object({
+		type: this._usageMetricsMeasurementType,
+		mobile: Joi.boolean().allow(null),
+		value: this._number.allow(null)
+	});
 
 	userSchema = Joi.object({
 		id: this._externalId.required(),
