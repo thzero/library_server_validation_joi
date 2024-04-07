@@ -97,7 +97,7 @@ class JoiBaseValidationService extends BaseValidationService {
 		.trim()
 		.regex(/^[a-zA-Z0-9]+([._\-a-zA-Z0-9]*)*$/)
 		.min(2)
-		.max(16);
+		.max(100);
 
 	_username = Joi.string()
 		.trim()
