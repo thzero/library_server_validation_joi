@@ -140,6 +140,18 @@ class JoiBaseValidationService extends BaseValidationService {
 		value: this._number.allow(null)
 	});
 
+	usageMetricsMeasurementTagParamsSort = Joi.object({
+		id: Joi.string().valid(...[ 'date', 'type', 'value' ]),
+		dir: Joi.boolean()
+	});
+
+	usageMetricsMeasurementTagParams = Joi.object({
+		unit: Joi.string().valid(...[ 'minute', 'hour', 'day', 'week', 'month', 'quarter', 'year' ]).allow(null).allow(''),
+		number: Joi.number().greater(-1).allow(null),
+		date: this._dateIso.allow(null),
+		sort: Joi.array().items(this.usageMetricsMeasurementTagParamsSort).allow(null)
+	});
+
 	userSchema = Joi.object({
 		id: this._externalId.required(),
 	});
