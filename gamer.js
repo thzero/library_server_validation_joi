@@ -2,166 +2,64 @@ import Joi from 'joi';
 import JoiDate from '@joi/date';
 Joi.extend(JoiDate);
 
-import BaseValidationService from '@thzero/library_common_service/service/validation.js';
+import JoiBaseValidationService from './index.js';
 
-class JoiBaseValidationService extends BaseValidationService {
-	check(correlationId, schema, value, context, prefix) {
-		const { error, valueO } = schema.validate(value, context);
-		return this._validateError(correlationId, error, prefix);
-	}
+class GamerJoiValidationService extends JoiBaseValidationService {
+	_gamerId = Joi.string()
+		.trim()
+		.alphanum();
+		//.regex(/^[a-zA-Z0-9]+(['"_\-a-zA-Z0-9]*)*$/);
 
-	_validateError(correlationId, error, prefix) {
-		if (!error)
-			return this._success(correlationId);
-
-		const response = this._error('JoiBaseValidationService', '_validateError', null, null, null, null, correlationId);
-
-		if (error) {
-			for (const temp of error.details) {
-				response.add(temp.message, temp.context.key, temp.context.key, temp.type, null, prefix);
-				this._logger.warn2(null, temp);
-			}
-		}
-
-		return response;
-	}
-
-	_boolean = Joi.boolean();
-	_dateIso = Joi.date().iso();
-
-	_description = Joi.string()
-		.regex(/^[!@#$%^&*()_\-\+=\[\]{}|\\:;"'<>,.?\/a-zA-Z0-9 (\r|\n)*$/)]*$/);
-
-	_extendedNameBase = Joi.string()
+	_gamerTagDisplay = Joi.string()
 		.trim()
 		//.alphanum()
-		.regex(/^[a-zA-Z0-9]+(['"._\-a-zA-Z0-9 :;,\(\\+)@]*)*$/);
-
-	_extendedName = this._extendedNameBase
-		.min(3)
-		.max(50);
-
-	_email = Joi.string().trim().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'org', 'edu'] } });
-
-	_externalId = Joi.string()
-		.trim()
-		.alphanum()
-		.min(3)
-		.max(30);
-	// _id = Joi.string().trim().guid();
-	_id = Joi.string()
-		.trim()
-		.alphanum()
-		.min(20)
-		.max(30);
-
-	_name = Joi.string()
-		.trim()
-		//.alphanum()
-		.regex(/^[a-zA-Z0-9]+(['"._\-a-zA-Z0-9 ]*)*$/)
-		.min(3)
-		.max(30);
-	_nameLong = Joi.string()
-		.trim()
-		//.alphanum()
-		.regex(/^[a-zA-Z0-9]+(['"._\-a-zA-Z0-9]*)*$/)
-		.min(3)
-		.max(50);
-
-	_number = Joi.number();
-
-	_roles = Joi.string()
-		.trim()
-		//.alphanum()
-		.regex(/^[a-zA-Z0-9]+([_\-a-zA-Z0-9]*)*$/)
+		.regex(/^[a-zA-Z0-9]+(['"_\-=\.,a-zA-Z0-9 ]*)*$/)
 		.min(3)
 		.max(30);
 
-	_tagLine = Joi.string()
+	_gamerTagFull = Joi.string()
 		.trim()
 		//.alphanum()
-		.regex(/^[a-zA-Z0-9]+(['",.!& _\-a-zA-Z0-9 ]*)*$/)
-		.min(3)
-		.max(90)
-		.allow('');
-
-	_timestamp = Joi.date().timestamp();
-
-	_url = Joi.string()
-		.trim()
-		.min(3)
-		.max(255)
-		.uri();
-
-	_usageMetricsMeasurementType = Joi.string()
-		.trim()
-		.regex(/^[a-zA-Z0-9]+([._\-a-zA-Z0-9]*)*$/)
-		.min(2)
-		.max(100);
-
-	_username = Joi.string()
-		.trim()
-		.alphanum()
+		.regex(/^[a-zA-Z0-9]+([_\-\.a-zA-Z0-9]*)*$/)
 		.min(3)
 		.max(30);
-	_userpicture = Joi.string().trim().uri();
 
-	externalIdSchema = this._externalId.required();
+	_gamerTagPartial = Joi.string()
+		.trim()
+		//.alphanum()
+		.regex(/^[a-zA-Z0-9]+(['"_\-=\.,a-zA-Z0-9 ]*)*$/)
+		.min(3)
+		.max(30);
 
-	idSchema = this._id.required();
-
-	nameSchema = this._name;
-
-	externalUserSchema = Joi.object({
-		id: this._externalId.required(),
-		name: this._name.allow(null),
-		email: this._email.allow(null),
-		picture: this._userpicture.allow(null),
+	_settingGamerSchema = Joi.object({
+		// gamerTag: this._gamerTagFull.allow(null).allow(''),
+		// gamerTagDisplay: this._gamerTagDisplay.allow(null).allow(''),
+		// gamerTagSearch: this._gamerTagDisplay.allow(null).allow('')
+		gamerTag: this.settingGamerTagSchema(),
+		gamerTagDisplay: this.settingGamerTagDisplaySchema(),
+		gamerTagSearch: this.settingGamerTagSearchSchema()
 	});
 
-	settingsRefreshSchema = Joi.object({
-		userId: this._externalId.required()
-	});
+	gamerIdSchema = this._gamerId.required();
 
-	settingRequestSchema() {
-		return Joi.object({
-			userId: this._id.required(),
-			settings: this.settingSchema().required()
-		});
+	gamerTagSchema = this._gamerTagFull.required();
+
+	settingGamerTagSchema() {
+		return this._gamerTagFull.allow(null).allow('');
+	}
+
+	settingGamerTagDisplaySchema() {
+		return this._gamerTagDisplay.allow(null).allow('');
+	}
+
+	settingGamerTagSearchSchema() {
+		return this._gamerTagDisplay.allow(null).allow('');
 	}
 
 	settingSchema() {
-		return Joi.object({});
+		const validation = super.settingSchema();
+		return validation.concat(this._settingGamerSchema);
 	}
-
-	usageMetricsMeasurementTag = Joi.object({
-		type: this._usageMetricsMeasurementType,
-		mobile: Joi.boolean().allow(null),
-		value: this._number.allow(null)
-	});
-
-	usageMetricsMeasurementTagParamsSort = Joi.object({
-		id: Joi.string().valid(...[ 'date', 'type', 'value' ]),
-		dir: Joi.boolean()
-	});
-
-	usageMetricsMeasurementTagParams = Joi.object({
-		unit: Joi.string().valid(...[ 'minute', 'hour', 'day', 'week', 'month', 'quarter', 'year' ]).allow(null).allow(''),
-		number: Joi.number().greater(-1).allow(null),
-		date: this._dateIso.allow(null),
-		sort: Joi.array().items(this.usageMetricsMeasurementTagParamsSort).allow(null)
-	});
-
-	userSchema = Joi.object({
-		id: this._externalId.required(),
-	});
-
-	userUpdateSchema = Joi.object({
-		id: this._externalId.required(),
-		email: this._email.allow(null),
-		roles: Joi.array().items(this._roles).allow(null),
-		updatedTimestamp: this._timestamp.required()
-	});
 }
 
-export default JoiBaseValidationService;
+export default GamerJoiValidationService;
