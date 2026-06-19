@@ -1,11 +1,11 @@
 {
   "name": "@thzero/library_server_validation_joi",
   "type": "module",
-  "version": "0.18.20",
+  "version": "0.18.21",
   "version_major": 0,
   "version_minor": 18,
-  "version_patch": 20,
-  "version_date": "05/21/2026",
+  "version_patch": 21,
+  "version_date": "06/19/2026",
   "author": "thZero",
   "author_url": "https://www.thzero.com",
   "copyright": "2020-2026",
@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@joi/date": "^2.1.1",
-    "joi": "^18.1.2",
+    "joi": "^18.2.3",
     "moment": ">=2.30.1"
   },
   "peerDependencies": {
