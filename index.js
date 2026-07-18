@@ -49,11 +49,12 @@ class JoiBaseValidationService extends BaseValidationService {
 		.min(3)
 		.max(30);
 	// _id = Joi.string().trim().guid();
-	_id = Joi.string()
-		.trim()
-		.alphanum()
-		.min(20)
-		.max(30);
+	// _id = Joi.string()
+	// 	.trim()
+	// 	.alphanum()
+	// 	.min(20)
+	// 	.max(30);
+	_id = Joi.string().trim().regex(/^[A-Za-z0-9_-]+$/).min(20).max(30);
 
 	_name = Joi.string()
 		.trim()
