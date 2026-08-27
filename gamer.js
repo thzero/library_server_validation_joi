@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import JoiDate from '@joi/date';
+import { JoiDate } from '@joi/date';
 Joi.extend(JoiDate);
 
 import JoiBaseValidationService from './index.js';
