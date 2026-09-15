@@ -6,7 +6,7 @@ import BaseValidationService from '@thzero/library_common_service/service/valida
 
 class JoiBaseValidationService extends BaseValidationService {
 	check(correlationId, schema, value, context, prefix) {
-		const { error, valueO } = schema.validate(value, context);
+		const { error } = schema.validate(value, context);
 		return this._validateError(correlationId, error, prefix);
 	}
 
@@ -19,7 +19,7 @@ class JoiBaseValidationService extends BaseValidationService {
 		if (error) {
 			for (const temp of error.details) {
 				response.add(temp.message, temp.context.key, temp.context.key, temp.type, null, prefix);
-				this._logger.warn2(null, temp);
+				this._logger.warn2(null, temp, correlationId);
 			}
 		}
 
