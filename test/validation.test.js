@@ -5,6 +5,7 @@ import Joi from 'joi';
 
 import '@thzero/library_common/utility/string.js';
 import JoiBaseValidationService from '../index.js';
+import GamerJoiValidationService from '../gamer.js';
 
 const inject = (target, name, value) => {
 	Object.defineProperty(target, name, { value, writable: true, configurable: true });
@@ -103,5 +104,43 @@ describe('shared schemas', () => {
 	it('usageMetricsMeasurementTagParams constrains the unit', () => {
 		assert.equal(service._hasSucceeded(service.check('cid', service.usageMetricsMeasurementTagParams, { unit: 'day' })), true);
 		assert.equal(service._hasFailed(service.check('cid', service.usageMetricsMeasurementTagParams, { unit: 'fortnight' })), true);
+	});
+});
+
+describe('settingRequestSchema', () => {
+	const userId = 'abcdefghij0123456789';
+
+	// It used to build a new Joi.object, and run the subclass concat inside it,
+	// on every settings update.
+	it('is built once and reused', () => {
+		let composed = 0;
+		class Counting extends JoiBaseValidationService {
+			settingSchema() { composed++; return super.settingSchema(); }
+		}
+		const counting = new Counting();
+		const first = counting.settingRequestSchema();
+		assert.equal(counting.settingRequestSchema(), first);
+		assert.equal(counting.settingRequestSchema(), first);
+		assert.equal(composed, 1);
+	});
+
+	it('composes the settings shape the subclass provides', () => {
+		const gamer = new GamerJoiValidationService();
+		inject(gamer, '_logger', { warn2() {} });
+		const schema = gamer.settingRequestSchema();
+		assert.equal(gamer._hasSucceeded(gamer.check('cid', schema, { userId, settings: { gamerTag: 'player.one' } })), true);
+		assert.equal(gamer._hasFailed(gamer.check('cid', schema, { userId, settings: { gamerTag: 'no spaces here' } })), true);
+	});
+
+	it('on the base, accepts no settings keys at all', () => {
+		const schema = service.settingRequestSchema();
+		assert.equal(service._hasSucceeded(service.check('cid', schema, { userId, settings: {} })), true);
+		assert.equal(service._hasFailed(service.check('cid', schema, { userId, settings: { gamerTag: 'x' } })), true);
+	});
+
+	it('each instance keeps its own', () => {
+		const base = new JoiBaseValidationService();
+		const gamer = new GamerJoiValidationService();
+		assert.notEqual(base.settingRequestSchema(), gamer.settingRequestSchema());
 	});
 });

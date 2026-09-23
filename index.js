@@ -32,10 +32,16 @@ class JoiBaseValidationService extends BaseValidationService {
 	_description = Joi.string()
 		.regex(/^[!@#$%^&*()_\-\+=\[\]{}|\\:;"'<>,.?\/a-zA-Z0-9 (\r|\n)*$/)]*$/);
 
+	// Each pattern below is "one alphanumeric, then any run of the wider class".
+	// They used to be written [A]+([B]*)*, a starred group inside a star over
+	// overlapping classes, which backtracks exponentially on input that does not
+	// match: 24 characters took 128ms and 30 took seconds, all on the event loop,
+	// from a request body. The single-class form accepts exactly the same strings
+	// in linear time. Where a chain has length rules they come before the pattern,
+	// so overlong input is rejected by a comparison rather than a scan.
 	_extendedNameBase = Joi.string()
 		.trim()
-		//.alphanum()
-		.regex(/^[a-zA-Z0-9]+(['"._\-a-zA-Z0-9 :;,\(\\+)@]*)*$/);
+		.regex(/^[a-zA-Z0-9]['"._\-a-zA-Z0-9 :;,\(\\+)@]*$/);
 
 	_extendedName = this._extendedNameBase
 		.min(3)
@@ -58,32 +64,28 @@ class JoiBaseValidationService extends BaseValidationService {
 
 	_name = Joi.string()
 		.trim()
-		//.alphanum()
-		.regex(/^[a-zA-Z0-9]+(['"._\-a-zA-Z0-9 ]*)*$/)
 		.min(3)
-		.max(30);
+		.max(30)
+		.regex(/^[a-zA-Z0-9]['"._\-a-zA-Z0-9 ]*$/);
 	_nameLong = Joi.string()
 		.trim()
-		//.alphanum()
-		.regex(/^[a-zA-Z0-9]+(['"._\-a-zA-Z0-9]*)*$/)
 		.min(3)
-		.max(50);
+		.max(50)
+		.regex(/^[a-zA-Z0-9]['"._\-a-zA-Z0-9]*$/);
 
 	_number = Joi.number();
 
 	_roles = Joi.string()
 		.trim()
-		//.alphanum()
-		.regex(/^[a-zA-Z0-9]+([_\-a-zA-Z0-9]*)*$/)
 		.min(3)
-		.max(30);
+		.max(30)
+		.regex(/^[a-zA-Z0-9][_\-a-zA-Z0-9]*$/);
 
 	_tagLine = Joi.string()
 		.trim()
-		//.alphanum()
-		.regex(/^[a-zA-Z0-9]+(['",.!& _\-a-zA-Z0-9 ]*)*$/)
 		.min(3)
 		.max(90)
+		.regex(/^[a-zA-Z0-9]['",.!& _\-a-zA-Z0-9 ]*$/)
 		.allow('');
 
 	_timestamp = Joi.date().timestamp();
@@ -96,9 +98,9 @@ class JoiBaseValidationService extends BaseValidationService {
 
 	_usageMetricsMeasurementType = Joi.string()
 		.trim()
-		.regex(/^[a-zA-Z0-9]+([._\-a-zA-Z0-9]*)*$/)
 		.min(2)
-		.max(100);
+		.max(100)
+		.regex(/^[a-zA-Z0-9][._\-a-zA-Z0-9]*$/);
 
 	_username = Joi.string()
 		.trim()
@@ -124,11 +126,18 @@ class JoiBaseValidationService extends BaseValidationService {
 		userId: this._externalId.required()
 	});
 
+	// Built on first use and kept. settingSchema() is the override point for an
+	// application's settings shape, and what it composes to does not change, so
+	// this used to build a Joi.object and run the subclass concat on every
+	// settings update for nothing. Joi schemas are immutable, so one is shareable.
 	settingRequestSchema() {
-		return Joi.object({
-			userId: this._id.required(),
-			settings: this.settingSchema().required()
-		});
+		if (!this._settingRequestSchemaI) {
+			this._settingRequestSchemaI = Joi.object({
+				userId: this._id.required(),
+				settings: this.settingSchema().required()
+			});
+		}
+		return this._settingRequestSchemaI;
 	}
 
 	settingSchema() {
