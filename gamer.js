@@ -10,26 +10,25 @@ class GamerJoiValidationService extends JoiBaseValidationService {
 		.alphanum();
 		//.regex(/^[a-zA-Z0-9]+(['"_\-a-zA-Z0-9]*)*$/);
 
+	// Single-class patterns with the length rules first; see the note on
+	// _extendedNameBase in index.js for why the [A]+([B]*)* form had to go.
 	_gamerTagDisplay = Joi.string()
 		.trim()
-		//.alphanum()
-		.regex(/^[a-zA-Z0-9]+(['"_\-=\.,a-zA-Z0-9 ]*)*$/)
 		.min(3)
-		.max(30);
+		.max(30)
+		.regex(/^[a-zA-Z0-9]['"_\-=\.,a-zA-Z0-9 ]*$/);
 
 	_gamerTagFull = Joi.string()
 		.trim()
-		//.alphanum()
-		.regex(/^[a-zA-Z0-9]+([_\-\.a-zA-Z0-9]*)*$/)
 		.min(3)
-		.max(30);
+		.max(30)
+		.regex(/^[a-zA-Z0-9][_\-\.a-zA-Z0-9]*$/);
 
 	_gamerTagPartial = Joi.string()
 		.trim()
-		//.alphanum()
-		.regex(/^[a-zA-Z0-9]+(['"_\-=\.,a-zA-Z0-9 ]*)*$/)
 		.min(3)
-		.max(30);
+		.max(30)
+		.regex(/^[a-zA-Z0-9]['"_\-=\.,a-zA-Z0-9 ]*$/);
 
 	_settingGamerSchema = Joi.object({
 		// gamerTag: this._gamerTagFull.allow(null).allow(''),

@@ -24,11 +24,12 @@ class BaseNewsJoiBaseValidationService extends JoiBaseValidationService {
 	_newsArticle = Joi.string()
 		.regex(/^[!@#$%^&*()_\-\+=\[\]{}|\\:;"'<>,.?\/a-zA-Z0-9 (\r|\n)*$/)]*$/);
 	_newsStatus = Joi.string().valid(...Object.values(this.getNewStatus()));
+	// Single-class pattern with the length rules first; see the note on
+	// _extendedNameBase in ../index.js for why the [A]+([B]*)* form had to go.
 	_newsTitle = Joi.string()
-		//.alphanum()
-		.regex(/^[a-zA-Z0-9]+(['",.!& _\-a-zA-Z0-9 ]*)*$/)
 		.min(3)
-		.max(90);
+		.max(90)
+		.regex(/^[a-zA-Z0-9]['",.!& _\-a-zA-Z0-9 ]*$/);
 	_newsType = Joi.string().valid(...Object.values(this.getNewsTypes()));
 
 	newsSchema = Joi.object({
